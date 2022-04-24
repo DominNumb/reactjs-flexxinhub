@@ -27,7 +27,7 @@ const auth = getAuth()
 //Main Function
 function App() {
   //User info variables
-  const [strIsSignedUp, setStrIsSignedUp] = useState('')
+  const [strIsSignedUp, setStrIsSignedUp] = useState('null')
   const [strEmail, setStrEmail] = useState('')
   const [strPassword, setStrPassword] = useState('')
 
@@ -53,7 +53,7 @@ function App() {
       .signOut()
       .then(function () {
         console.log('User was logout!')
-        setStrIsSignedUp(false)
+        setStrIsSignedUp('false')
       })
       .catch(function (error) {
         console.log(error)
@@ -61,28 +61,28 @@ function App() {
   }
 
   //check if user is singed up just once
-  if (strIsSignedUp === '') {
+  if (strIsSignedUp === 'null') {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid
         console.log('User is here!')
         setStrEmail(user.email)
-        setStrIsSignedUp(true)
+        setStrIsSignedUp('true')
       } else {
         console.log('User is not singed up')
-        setStrIsSignedUp(false)
+        setStrIsSignedUp('false')
       }
     })
   }
 
   //open home or login-regis page by user info
-  if (strIsSignedUp) {
+  if (strIsSignedUp === 'true') {
     return (
       <div className={'styleBodyForm'}>
         <Home onEmail={strEmail} onLogout={handleLogout} />
       </div>
     )
-  } else {
+  } else if (strIsSignedUp === 'false') {
     return (
       <div className={'styleBodyForm'}>
         <Login
